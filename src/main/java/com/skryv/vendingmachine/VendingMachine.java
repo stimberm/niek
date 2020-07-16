@@ -1,24 +1,23 @@
 package com.skryv.vendingmachine;
 
+import java.text.DecimalFormat;
+import java.util.Locale;
+
 class VendingMachine {
 
     private static final String INSERT_COIN = "INSERT COIN";
 
-    private int amount;
+    private double amount;
 
     public String getDisplay() {
-        if(amount == 50) {
-            return "€ 0,50";
+        String amountString = DecimalFormat.getCurrencyInstance(Locale.GERMANY).format(amount);
+        if(amount > 0) {
+            return amountString;
         }
-
-        if(amount > 50) {
-            return "€ 1,00";
-        }
-
         return INSERT_COIN;
     }
 
     public void acceptCoin() {
-        amount += 50;
+        amount += 0.50;
     }
 }

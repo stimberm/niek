@@ -18,7 +18,7 @@ public class VendingMachineTest {
         VendingMachine vendingMachine = new VendingMachine();
         vendingMachine.acceptCoin();
         String message = vendingMachine.getDisplay();
-        assertThat(message).isEqualTo("€ 0,50");
+        assertThat(message).isEqualTo("0,50 €");
     }
 
     @Test
@@ -27,7 +27,7 @@ public class VendingMachineTest {
         vendingMachine.acceptCoin();
         vendingMachine.acceptCoin();
         String message = vendingMachine.getDisplay();
-        assertThat(message).isEqualTo("€ 1,00");
+        assertThat(message).isEqualTo("1,00 €");
     }
 
 }
