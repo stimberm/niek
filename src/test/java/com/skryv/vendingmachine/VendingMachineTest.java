@@ -1,6 +1,11 @@
 package com.skryv.vendingmachine;
 
-import org.junit.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
+
+import java.util.List;
+import java.util.stream.Stream;
 
 import static com.skryv.vendingmachine.Coin.FIFTY_CENT;
 import static com.skryv.vendingmachine.Coin.TEN_CENT;
@@ -11,79 +16,26 @@ public class VendingMachineTest {
 
     private static final int UNKNOWN_COIN_WEIGHT = 999;
 
-    @Test
-    public void noCoinInserted() {
-        VendingMachine vendingMachine = new VendingMachine();
-        String message = vendingMachine.getDisplay();
-        assertThat(message).isEqualTo("INSERT COIN");
+    private static Stream<Arguments> acceptCoinsInput() {
+        return Stream.of(
+                Arguments.of(List.of(), "INSERT COIN"),
+                Arguments.of(List.of(FIFTY_CENT.weight), "0,50 €"),
+                Arguments.of(List.of(FIFTY_CENT.weight, FIFTY_CENT.weight), "1,00 €"),
+                Arguments.of(List.of(TWENTY_CENT.weight), "0,20 €"),
+                Arguments.of(List.of(TWENTY_CENT.weight, TWENTY_CENT.weight), "0,40 €"),
+                Arguments.of(List.of(UNKNOWN_COIN_WEIGHT), "INSERT COIN"),
+                Arguments.of(List.of(UNKNOWN_COIN_WEIGHT, TWENTY_CENT.weight, UNKNOWN_COIN_WEIGHT), "0,20 €"),
+                Arguments.of(List.of(TEN_CENT.weight), "0,10 €"),
+                Arguments.of(List.of(TEN_CENT.weight, TEN_CENT.weight), "0,20 €"),
+                Arguments.of(List.of(TEN_CENT.weight, TWENTY_CENT.weight, UNKNOWN_COIN_WEIGHT, FIFTY_CENT.weight), "0,80 €")
+        );
     }
 
-    @Test
-    public void insert50Cents() {
+    @ParameterizedTest
+    @MethodSource("acceptCoinsInput")
+    public void acceptCoins(List<Integer> coinsToInsert, String expectedDisplay) {
         VendingMachine vendingMachine = new VendingMachine();
-        vendingMachine.acceptCoin(FIFTY_CENT.weight);
-        String message = vendingMachine.getDisplay();
-        assertThat(message).isEqualTo("0,50 €");
-    }
-
-    @Test
-    public void insert50Cents2Times() {
-        VendingMachine vendingMachine = new VendingMachine();
-        vendingMachine.acceptCoin(FIFTY_CENT.weight);
-        vendingMachine.acceptCoin(FIFTY_CENT.weight);
-        String message = vendingMachine.getDisplay();
-        assertThat(message).isEqualTo("1,00 €");
-    }
-
-    @Test
-    public void insert20Cents() {
-        VendingMachine vendingMachine = new VendingMachine();
-        vendingMachine.acceptCoin(TWENTY_CENT.weight);
-        String message = vendingMachine.getDisplay();
-        assertThat(message).isEqualTo("0,20 €");
-    }
-
-    @Test
-    public void insert20Cents2Times() {
-        VendingMachine vendingMachine = new VendingMachine();
-        vendingMachine.acceptCoin(TWENTY_CENT.weight);
-        vendingMachine.acceptCoin(TWENTY_CENT.weight);
-        String message = vendingMachine.getDisplay();
-        assertThat(message).isEqualTo("0,40 €");
-    }
-
-    @Test
-    public void insertUnknown() {
-        VendingMachine vendingMachine = new VendingMachine();
-        vendingMachine.acceptCoin(UNKNOWN_COIN_WEIGHT);
-        String message = vendingMachine.getDisplay();
-        assertThat(message).isEqualTo("INSERT COIN");
-    }
-
-    @Test
-    public void insertUnknownThen20CentsThenUnknown() {
-        VendingMachine vendingMachine = new VendingMachine();
-        vendingMachine.acceptCoin(UNKNOWN_COIN_WEIGHT);
-        vendingMachine.acceptCoin(TWENTY_CENT.weight);
-        vendingMachine.acceptCoin(UNKNOWN_COIN_WEIGHT);
-        String message = vendingMachine.getDisplay();
-        assertThat(message).isEqualTo("0,20 €");
-    }
-
-    @Test
-    public void insert10Cents() {
-        VendingMachine vendingMachine = new VendingMachine();
-        vendingMachine.acceptCoin(TEN_CENT.weight);
-        String message = vendingMachine.getDisplay();
-        assertThat(message).isEqualTo("0,10 €");
-    }
-
-    @Test
-    public void insert10Cents2Times() {
-        VendingMachine vendingMachine = new VendingMachine();
-        vendingMachine.acceptCoin(TEN_CENT.weight);
-        vendingMachine.acceptCoin(TEN_CENT.weight);
-        String message = vendingMachine.getDisplay();
-        assertThat(message).isEqualTo("0,20 €");
+        coinsToInsert.forEach(vendingMachine::acceptCoin);
+        assertThat(vendingMachine.getDisplay()).isEqualTo(expectedDisplay);
     }
 }
