@@ -7,14 +7,14 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class VendingMachineTest {
 
     @Test
-    public void noCoinsDisplaysInsertCoin() {
+    public void noCoinInserted() {
         VendingMachine vendingMachine = new VendingMachine();
         String message = vendingMachine.getDisplay();
         assertThat(message).isEqualTo("INSERT COIN");
     }
 
     @Test
-    public void acceptFiftyCentsShowsAmount() {
+    public void insert50Cents() {
         VendingMachine vendingMachine = new VendingMachine();
         vendingMachine.acceptCoin(2);
         String message = vendingMachine.getDisplay();
@@ -22,7 +22,7 @@ public class VendingMachineTest {
     }
 
     @Test
-    public void acceptFiftyCentsTwice() {
+    public void insert50Cents2Times() {
         VendingMachine vendingMachine = new VendingMachine();
         vendingMachine.acceptCoin(2);
         vendingMachine.acceptCoin(2);
@@ -31,7 +31,7 @@ public class VendingMachineTest {
     }
 
     @Test
-    public void acceptTwentyCents() {
+    public void insert20Cents() {
         VendingMachine vendingMachine = new VendingMachine();
         vendingMachine.acceptCoin(1);
         String message = vendingMachine.getDisplay();
