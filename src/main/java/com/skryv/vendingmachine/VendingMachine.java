@@ -7,10 +7,18 @@ class VendingMachine {
     private int amount;
 
     public String getDisplay() {
-        return amount > 0 ? "€ 0,50" : INSERT_COIN;
+        if(amount == 50) {
+            return "€ 0,50";
+        }
+
+        if(amount > 50) {
+            return "€ 1,00";
+        }
+
+        return INSERT_COIN;
     }
 
     public void acceptCoin() {
-        amount = 50;
+        amount += 50;
     }
 }

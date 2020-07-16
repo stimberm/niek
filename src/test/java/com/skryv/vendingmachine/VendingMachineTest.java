@@ -21,4 +21,13 @@ public class VendingMachineTest {
         assertThat(message).isEqualTo("€ 0,50");
     }
 
+    @Test
+    public void acceptFiftyCentsTwice() {
+        VendingMachine vendingMachine = new VendingMachine();
+        vendingMachine.acceptCoin();
+        vendingMachine.acceptCoin();
+        String message = vendingMachine.getDisplay();
+        assertThat(message).isEqualTo("€ 1,00");
+    }
+
 }
