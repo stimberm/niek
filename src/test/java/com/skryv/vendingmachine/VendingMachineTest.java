@@ -3,6 +3,7 @@ package com.skryv.vendingmachine;
 import org.junit.Test;
 
 import static com.skryv.vendingmachine.Coin.FIFTY_CENT;
+import static com.skryv.vendingmachine.Coin.TEN_CENT;
 import static com.skryv.vendingmachine.Coin.TWENTY_CENT;
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -65,6 +66,23 @@ public class VendingMachineTest {
         vendingMachine.acceptCoin(UNKNOWN_COIN_WEIGHT);
         vendingMachine.acceptCoin(TWENTY_CENT.weight);
         vendingMachine.acceptCoin(UNKNOWN_COIN_WEIGHT);
+        String message = vendingMachine.getDisplay();
+        assertThat(message).isEqualTo("0,20 €");
+    }
+
+    @Test
+    public void insert10Cents() {
+        VendingMachine vendingMachine = new VendingMachine();
+        vendingMachine.acceptCoin(TEN_CENT.weight);
+        String message = vendingMachine.getDisplay();
+        assertThat(message).isEqualTo("0,10 €");
+    }
+
+    @Test
+    public void insert10Cents2Times() {
+        VendingMachine vendingMachine = new VendingMachine();
+        vendingMachine.acceptCoin(TEN_CENT.weight);
+        vendingMachine.acceptCoin(TEN_CENT.weight);
         String message = vendingMachine.getDisplay();
         assertThat(message).isEqualTo("0,20 €");
     }
