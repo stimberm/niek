@@ -20,4 +20,8 @@ class VendingMachine {
     public void acceptCoin() {
         amount += 0.50;
     }
+
+    public void acceptCoin(final int weight) {
+        amount += 0.20;
+    }
 }
