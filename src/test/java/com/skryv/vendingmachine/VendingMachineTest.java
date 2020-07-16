@@ -46,4 +46,22 @@ public class VendingMachineTest {
         String message = vendingMachine.getDisplay();
         assertThat(message).isEqualTo("0,40 €");
     }
+
+    @Test
+    public void insertUnknown() {
+        VendingMachine vendingMachine = new VendingMachine();
+        vendingMachine.acceptCoin(999);
+        String message = vendingMachine.getDisplay();
+        assertThat(message).isEqualTo("INSERT COIN");
+    }
+
+    @Test
+    public void insertUnknownThen20CentsThenUnknown() {
+        VendingMachine vendingMachine = new VendingMachine();
+        vendingMachine.acceptCoin(999);
+        vendingMachine.acceptCoin(1);
+        vendingMachine.acceptCoin(999);
+        String message = vendingMachine.getDisplay();
+        assertThat(message).isEqualTo("0,20 €");
+    }
 }
