@@ -1,24 +1,18 @@
 package com.skryv.vendingmachine;
 
-import java.text.DecimalFormat;
-import java.util.Locale;
-
 class VendingMachine {
 
-    private static final String INSERT_COIN = "INSERT COIN";
+    private Display display = new Display();
 
-    private double amount;
+    private double currentAmount = 0;
 
     public String getDisplay() {
-        String amountString = DecimalFormat.getCurrencyInstance(Locale.GERMANY).format(amount);
-        if (amount > 0) {
-            return amountString;
-        }
-        return INSERT_COIN;
+        return display.getMessage();
     }
 
     public void acceptCoin(final int weight) {
         Coin coin = Coin.from(weight);
-        amount += coin.amount;
+        currentAmount += coin.amount;
+        display.update(currentAmount);
     }
 }
