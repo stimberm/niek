@@ -18,11 +18,7 @@ class VendingMachine {
     }
 
     public void acceptCoin(final int weight) {
-        if (weight == 2) {
-            amount += 0.50;
-            return;
-        }
-
-        amount += 0.20;
+        Coin coin = Coin.from(weight);
+        amount += coin.amount;
     }
 }
