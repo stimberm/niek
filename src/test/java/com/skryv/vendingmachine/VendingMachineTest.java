@@ -38,4 +38,12 @@ public class VendingMachineTest {
         assertThat(message).isEqualTo("0,20 €");
     }
 
+    @Test
+    public void insert20Cents2Times() {
+        VendingMachine vendingMachine = new VendingMachine();
+        vendingMachine.acceptCoin(1);
+        vendingMachine.acceptCoin(1);
+        String message = vendingMachine.getDisplay();
+        assertThat(message).isEqualTo("0,40 €");
+    }
 }
